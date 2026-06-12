@@ -204,6 +204,27 @@
       transition: background 0.15s ease;
     }
     .waitlist button:hover { background: var(--brand-hover); }
+    .waitlist button:disabled {
+      background: var(--brand);
+      opacity: 0.8;
+      cursor: default;
+    }
+    .waitlist input:disabled { color: var(--ink-soft); }
+    .waitlist .spinner {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid rgba(255, 253, 248, 0.35);
+      border-top-color: var(--card);
+      border-radius: 50%;
+      vertical-align: -2px;
+      margin-right: 9px;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .waitlist .spinner { display: none; }
+    }
     .waitlist-note {
       margin-top: 12px;
       font-family: var(--mono);
@@ -393,14 +414,25 @@
     // and the launch email gets sent from the same list.
     var BUTTONDOWN_USERNAME = "propertyextra";
 
-    document.getElementById("waitlist-form").addEventListener("submit", function (e) {
+    var waitlistForm = document.getElementById("waitlist-form");
+    var waitlistSubmitting = false;
+    waitlistForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (waitlistSubmitting) return;
       var input = document.getElementById("waitlist-email");
       var email = input.value.trim();
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         input.focus();
         return;
       }
+      // Lock the form while the request is in flight so the user gets
+      // immediate feedback that the press registered.
+      waitlistSubmitting = true;
+      var btn = waitlistForm.querySelector("button");
+      btn.disabled = true;
+      input.disabled = true;
+      btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>Joining…';
+      waitlistForm.setAttribute("aria-busy", "true");
       // Buttondown's embed endpoint is built for cross-origin form posts;
       // no-cors means we can't read the response, so show success optimistically.
       fetch("https://buttondown.com/api/emails/embed-subscribe/" + BUTTONDOWN_USERNAME, {
@@ -410,7 +442,7 @@
         body: "email=" + encodeURIComponent(email) + "&tag=propertyextra-waitlist",
       }).then(done, done);
       function done() {
-        document.getElementById("waitlist-form").style.display = "none";
+        waitlistForm.style.display = "none";
         document.getElementById("waitlist-ok").style.display = "block";
       }
     });
