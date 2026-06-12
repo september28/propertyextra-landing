@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PropertyExtra — Property intelligence for investors. Coming soon.</title>
+  <meta name="description" content="PropertyExtra is an AI-native property platform for small landlords and active investors: deal evaluation, area fundamentals, agent ratings and AI-powered search. Launching soon." />
+  <meta property="og:title" content="PropertyExtra — Property intelligence for investors" />
+  <meta property="og:description" content="Deal evaluation, area fundamentals, agent ratings and AI-powered search. Launching soon." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://propertyextra.ai" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23283890'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-style='italic' font-size='18' fill='%23fffdf8' text-anchor='middle'%3EPx%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f6f2ea;
+      --card: #fffdf8;
+      --ink: #1b1812;
+      --ink-soft: #6b6256;
+      --line: #e4ddcf;
+      --muted: #efe9dd;
+      --brand: #283890;
+      --brand-hover: #3a4fc0;
+      --premium: #9c7b3f;
+      --positive: #2f7d4f;
+      --display: "Fraunces", Georgia, serif;
+      --ui: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+      --mono: "Spline Sans Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--ui);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* paper grain */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.045'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .frame {
+      position: relative;
+      z-index: 2;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ---------- masthead ---------- */
+    header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 30px 0 22px;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .wordmark {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+    }
+    .wordmark em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--brand);
+    }
+
+    .masthead-note {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .masthead-note .dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--positive);
+      margin-right: 7px;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      padding: clamp(56px, 9vw, 110px) 0 clamp(40px, 6vw, 72px);
+      position: relative;
+    }
+
+    .kicker {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 26px;
+    }
+    .kicker::before {
+      content: "";
+      display: inline-block;
+      width: 34px;
+      height: 1px;
+      background: var(--brand);
+      vertical-align: middle;
+      margin-right: 12px;
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-weight: 380;
+      font-size: clamp(42px, 7.2vw, 84px);
+      line-height: 1.04;
+      letter-spacing: -0.022em;
+      max-width: 13ch;
+    }
+    h1 .turn {
+      font-style: italic;
+      font-weight: 340;
+      color: var(--brand);
+      white-space: nowrap;
+    }
+    h1 .underline {
+      background-image: linear-gradient(var(--premium), var(--premium));
+      background-repeat: no-repeat;
+      background-size: 100% 2px;
+      background-position: 0 96%;
+    }
+    h1 .strike {
+      color: var(--ink-soft);
+      text-decoration: line-through;
+      text-decoration-color: rgba(156, 123, 63, 0.38);
+      text-decoration-thickness: 0.024em;
+    }
+
+    .hero-sub {
+      margin-top: 30px;
+      max-width: 56ch;
+      font-size: clamp(17px, 1.7vw, 19px);
+      color: var(--ink-soft);
+    }
+    .hero-sub strong { color: var(--ink); font-weight: 600; }
+
+    /* ---------- waitlist ---------- */
+    .waitlist {
+      margin-top: 40px;
+      max-width: 520px;
+    }
+    .waitlist form {
+      display: flex;
+      border: 1.5px solid var(--ink);
+      background: var(--card);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+    .waitlist form:focus-within {
+      box-shadow: 4px 4px 0 var(--brand);
+    }
+    .waitlist input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      padding: 15px 18px;
+      font-family: var(--ui);
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .waitlist input::placeholder { color: var(--ink-soft); }
+    .waitlist button {
+      border: 0;
+      cursor: pointer;
+      background: var(--brand);
+      color: var(--card);
+      font-family: var(--ui);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 0 26px;
+      letter-spacing: 0.01em;
+      transition: background 0.15s ease;
+    }
+    .waitlist button:hover { background: var(--brand-hover); }
+    .waitlist-note {
+      margin-top: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    .waitlist-ok {
+      display: none;
+      border: 1.5px solid var(--positive);
+      border-radius: 6px;
+      background: var(--card);
+      color: var(--positive);
+      padding: 15px 18px;
+      font-weight: 600;
+    }
+
+    /* ---------- ledger of features ---------- */
+    .ledger { padding: clamp(48px, 7vw, 84px) 0; }
+
+    .ledger-head {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 64px 1fr 1.35fr;
+      gap: 24px;
+      align-items: baseline;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .row:first-of-type { border-top: 1px solid var(--ink); }
+
+    .row .idx {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--premium);
+    }
+    .row h3 {
+      font-family: var(--display);
+      font-weight: 480;
+      font-style: italic;
+      font-size: clamp(21px, 2.6vw, 27px);
+      letter-spacing: -0.01em;
+    }
+    .row p {
+      font-size: 15.5px;
+      color: var(--ink-soft);
+    }
+    .row p strong { color: var(--ink); font-weight: 600; }
+
+    /* ---------- closing ---------- */
+    .closing {
+      padding: clamp(44px, 6vw, 70px) 0 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 40px;
+      align-items: baseline;
+      justify-content: space-between;
+      border-top: 1px solid var(--ink);
+    }
+    .closing .sig {
+      font-family: var(--display);
+      font-style: italic;
+      font-size: 19px;
+      color: var(--ink);
+      max-width: 30ch;
+    }
+    .closing a {
+      color: var(--brand);
+      text-decoration: none;
+      border-bottom: 1px solid var(--brand);
+    }
+    .closing a:hover { color: var(--brand-hover); }
+    footer {
+      padding: 14px 0 40px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ---------- entrance ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      .rise {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      }
+      .rise:nth-of-type(1), .d1 { animation-delay: 0.05s; }
+      .d2 { animation-delay: 0.16s; }
+      .d3 { animation-delay: 0.27s; }
+      .d4 { animation-delay: 0.38s; }
+      .d5 { animation-delay: 0.49s; }
+      @keyframes rise {
+        to { opacity: 1; transform: none; }
+      }
+    }
+
+    /* ---------- small screens ---------- */
+    @media (max-width: 720px) {
+      .row { grid-template-columns: 44px 1fr; }
+      .row p { grid-column: 2; }
+      .masthead-note .hide-sm { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+
+    <header class="rise d1">
+      <div class="wordmark">Property<em>Extra</em></div>
+      <div class="masthead-note"><span class="dot"></span><span class="hide-sm">Platform in build · </span>Est. 2026</div>
+    </header>
+
+    <section class="hero">
+      <p class="kicker rise d2">propertyextra.ai — launching soon</p>
+      <h1 class="rise d2">Find <span class="turn">deals</span>, not <span class="strike">listings</span>.</h1>
+      <p class="hero-sub rise d3">
+        PropertyExtra is an AI-native platform for <strong>active property investors and those serious about property search</strong>.
+        Not another property portal — an analyst working through the listings for you:
+        numbers checked, areas profiled, agents graded.
+      </p>
+
+      <div class="waitlist rise d4">
+        <form id="waitlist-form" novalidate>
+          <input type="email" id="waitlist-email" name="email" placeholder="you@example.com" autocomplete="email" required />
+          <button type="submit">Get early access</button>
+        </form>
+        <div class="waitlist-ok" id="waitlist-ok">Almost there — check your inbox to confirm, and we'll be in touch at launch. ✓</div>
+        <p class="waitlist-note">First cohort gets founding-member pricing. No spam, one launch email.</p>
+      </div>
+    </section>
+
+    <section class="ledger rise d5">
+      <p class="ledger-head">What we're building</p>
+
+      <div class="row">
+        <span class="idx">№ 01</span>
+        <h3>Deal evaluation</h3>
+        <p>Hold, BRRR or flip — <strong>full unit economics on any listing</strong>: yield, cash flow, stamp duty, leverage. Tuned to your strategy, not a generic calculator.</p>
+      </div>
+
+      <div class="row">
+        <span class="idx">№ 02</span>
+        <h3>Area fundamentals</h3>
+        <p>Yield, supply, liquidity and pricing pressure, <strong>area by area</strong> — so you compare on evidence, not anecdote.</p>
+      </div>
+
+      <div class="row">
+        <span class="idx">№ 03</span>
+        <h3>Agent intelligence</h3>
+        <p>Scorecards on the agents behind the listings: pricing discipline, time on market, sales record. <strong>Know who you're negotiating with.</strong></p>
+      </div>
+
+      <div class="row">
+        <span class="idx">№ 04</span>
+        <h3>AI search &amp; alerts</h3>
+        <p>Ask in plain English — <em>"two-bed flats under £180k yielding 7%+ near a station"</em> — and get <strong>ranked, priced-well candidates</strong> with alerts when new ones appear.</p>
+      </div>
+    </section>
+
+    <section class="closing">
+      <p class="sig">Built by investors who got tired of doing this in spreadsheets.</p>
+      <p>Questions or partnerships → <span id="contact-email" style="color: var(--brand);"></span></p>
+    </section>
+
+    <footer>
+      <span>© 2026 PropertyExtra</span>
+      <span>propertyextra.ai</span>
+    </footer>
+
+  </div>
+
+  <script>
+    // Waitlist via Buttondown: subscribers land in the Buttondown audience,
+    // and the launch email gets sent from the same list.
+    var BUTTONDOWN_USERNAME = "propertyextra";
+
+    document.getElementById("waitlist-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = document.getElementById("waitlist-email");
+      var email = input.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.focus();
+        return;
+      }
+      // Buttondown's embed endpoint is built for cross-origin form posts;
+      // no-cors means we can't read the response, so show success optimistically.
+      fetch("https://buttondown.com/api/emails/embed-subscribe/" + BUTTONDOWN_USERNAME, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "email=" + encodeURIComponent(email) + "&tag=propertyextra-waitlist",
+      }).then(done, done);
+      function done() {
+        document.getElementById("waitlist-form").style.display = "none";
+        document.getElementById("waitlist-ok").style.display = "block";
+      }
+    });
+
+    // Contact address assembled at runtime so harvesters scraping the HTML
+    // source never see a plain email or mailto: link.
+    (function () {
+      var el = document.getElementById("contact-email");
+      if (el) el.textContent = ["hello", "propertyextra.ai"].join("@");
+    })();
+  </script>
+</body>
+</html>
